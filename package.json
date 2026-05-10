@@ -16,6 +16,7 @@
   "main": "src/index.ts",
   "scripts": {
     "dev": "tsx watch src/index.ts",
+    "build": "tsc",
     "start": "nodemon --exec npx tsx src/index.ts"
   },
   "devDependencies": {
