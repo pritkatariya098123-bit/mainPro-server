@@ -19,18 +19,11 @@ export const userAuth = async (username: string, email: string, password: string
     }
 
     let newId;
-    // Admin ચેક: જો ઈમેલ એડમિનનો હોય
     if (email === "admin@user.com") {
         newId = 123098;
     } else {
-        // નોર્મલ યુઝર્સ માટે: 1, 2, 3 ક્રમમાં
-        const normalUsers = users.filter((u: { id: number | string }) => Number(u.id) !== 123098);
-        if (normalUsers.length === 0) {
-            newId = 1;
-        } else {
-            const lastId = Math.max(...normalUsers.map((u: { id: number | string }) => Number(u.id)));
-            newId = lastId + 1;
-        }
+        const normalUsers = users.filter((u: any) => Number(u.id) !== 123098);
+        newId = normalUsers.length === 0 ? 1 : Math.max(...normalUsers.map((u: any) => Number(u.id))) + 1;
     }
 
     const newUser = { id: newId, username, email, password };
@@ -44,8 +37,36 @@ export const findUser = async (email: string) => {
         const data = fs.readFileSync(filePath, 'utf-8').trim();
         if (data) {
             const users = JSON.parse(data);
-            return users.find((u: { email: string }) => u.email === email);
+            return users.find((u: any) => u.email === email);
         }
     }
     return null;
+};
+
+export const searchData = async (query: string) => {
+    const searchFilePath = path.join(dirPath, 'searchData.json');
+    if (fs.existsSync(searchFilePath)) {
+        const data = fs.readFileSync(searchFilePath, 'utf-8').trim();
+        if (data) {
+            const searchData = JSON.parse(data);
+            return searchData.filter((item: any) => item.name.toLowerCase().includes(query.toLowerCase()));
+        }
+    }
+    return [];
+};
+
+export const addSearchData = async (name: string, description: string, img: string) => {
+    const searchFilePath = path.join(dirPath, 'searchData.json');
+    let searchData = [];
+    ensureDirectory();
+    
+    if (fs.existsSync(searchFilePath)) {
+        const data = fs.readFileSync(searchFilePath, 'utf-8').trim();
+        searchData = data ? JSON.parse(data) : [];
+    }
+    
+    const newItem = { id: Date.now(), name, description, img };
+    searchData.push(newItem);
+    fs.writeFileSync(searchFilePath, JSON.stringify(searchData, null, 2));
+    return newItem;
 };
