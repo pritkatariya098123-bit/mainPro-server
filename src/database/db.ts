@@ -1,20 +1,14 @@
 import pkg from 'pg';
 const { Pool } = pkg;
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const pool = new Pool({
-    user: 'postgres',
-    host: 'localhost',
-    database: 'DEV',
-    password: '5432',
-    port: 5432,
-});
-
-pool.connect((err) => {
-    if (err) {
-        console.error('Database connection error:', err.stack);
-    } else {
-        console.log('Connected to Local pgAdmin (DEV) successfully');
-    }
+  connectionString: process.env.DATABASE_URL, // Railway aane auto detect kari leshe
+  ssl: {
+    rejectUnauthorized: false // Online hosting mate aa jaruri chhe
+  }
 });
 
 export default pool;
