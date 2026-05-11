@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import pool from '../database/db';
+import pool from '../database/db.js';
 
 // ૧. સર્ચબાર માટેનું ફંક્શન
 export const searchData = async (req: Request, res: Response) => {

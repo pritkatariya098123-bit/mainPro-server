@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import multer from 'multer';
-import * as SearchController from '../Controller/Search-controller';
-import * as AuthController from '../Controller/Auth-controller'; // Auth Controller import karyu
+import * as SearchController from '../Controller/Search-controller.js';
+import * as AuthController from '../Controller/Auth-controller.js'; // Auth Controller import karyu
 
 const router = Router();
 
