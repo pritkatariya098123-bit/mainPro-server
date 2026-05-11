@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
-import pool from '../database/db';
+import pool from '../database/db.js';
 
 export const signup = async (req: Request, res: Response) => {
     const { username, email, password } = req.body;
